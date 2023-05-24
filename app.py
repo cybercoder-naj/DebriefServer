@@ -4,6 +4,15 @@ from debrief.ergast import race_schedule
 
 app = Flask(__name__)
 
+statuses = {
+    'ok': 200,
+    'created': 201,
+    'badrequest': 400,
+    'unauthorized': 401,
+    'forbidden': 403,
+    'notfound': 404,
+}
+
 
 @app.route('/')
 def hello_world():  # put application's code here
@@ -12,7 +21,11 @@ def hello_world():  # put application's code here
 
 @app.route('/race-schedule/<year>')
 def get_race_schedule(year):
-    return race_schedule(requests, year)
+    response = race_schedule(requests, int(year))
+    if response is None:
+        return f'Cannot fetch schedule for {year}.', statuses['notfound']
+
+    return response
 
 
 if __name__ == '__main__':
