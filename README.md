@@ -17,6 +17,11 @@ Contributions are always welcome!
 See [`contributing.md`](contributing.md) for ways to get started.
 
 
+## License
+
+[MIT](LICENSE)
+
+
 ## Authors
 
 - [@cybercoder-naj](https://www.github.com/cybercoder-naj)
