@@ -10,9 +10,9 @@ def hello_world():  # put application's code here
     return 'Hello World!'
 
 
-@app.route('/race-schedule')
-def get_race_schedule():
-    return race_schedule(requests)
+@app.route('/race-schedule/<year>')
+def get_race_schedule(year):
+    return race_schedule(requests, year)
 
 
 if __name__ == '__main__':

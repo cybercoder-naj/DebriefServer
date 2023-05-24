@@ -1,3 +1,6 @@
-def race_schedule(requests):
-    schedule = requests.get('http://ergast.com/api/f1/2012')
-    return schedule.text
+import json
+
+
+def race_schedule(requests, year):
+    schedule = requests.get(f'http://ergast.com/api/f1/{year}.json')
+    return json.loads(schedule.text)
