@@ -1,6 +1,7 @@
 import requests
 from flask import Flask
 from debrief.ergast import race_schedule
+import debrief.fastf1
 
 app = Flask(__name__)
 
@@ -25,6 +26,12 @@ def get_race_schedule(year):
     if response is None:
         return f'Cannot fetch schedule for {year}.', statuses['notfound']
 
+    return response
+
+
+@app.route('/line-graph')
+def get_line_graph():
+    response = debrief.fastf1.fastest_driver_q_lap()
     return response
 
 
