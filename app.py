@@ -31,7 +31,7 @@ def get_race_schedule(year):
     return response
 
 
-@app.route('/line-graph')
+@app.route('/fastest-laps/line-graph')
 def get_line_graph():
     x = request.args.get('x')
     y = request.args.get('y')
