@@ -4,6 +4,10 @@ Flask app to serve F1 season and Race details along with images comparing driver
 Some responses will be taken directly from [Ergast](http://ergast.com/mrd/), while the images with telemetry 
 data will be processed from the [FastF1](https://docs.fastf1.dev/index.html) python library.
 
+## Screenshots
+
+![LEC vs RUS Bahrain 22 Quali](examples/screenshots/ruslec.png)
+
 ## API Reference
 
 #### Get Race Schedule
