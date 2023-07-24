@@ -3,3 +3,7 @@ GET http://127.0.0.1:5000/fastest-laps/line-graph?x=Time&y=Speed&year=2022&gp=Ba
 ###
 
 GET http://127.0.0.1:5000/fastest-laps/line-graph?x=Time&y=Speed&year=2023&gp=Hungary&session=Q&drivers=VER,HAM HTTP/1.1
+
+###
+
+GET http://127.0.0.1:5000/delta-time?year=2023&gp=Hungary&session=R&drivers=VER,HAM&lap=68 HTTP/1.1

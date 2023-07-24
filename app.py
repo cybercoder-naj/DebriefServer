@@ -43,6 +43,17 @@ def get_line_graph():
     response = debrief.fastf1.fastest_lap_of_driver(year, gp, session, drivers, x, y)
     return base64.b64encode(response.read()).decode()
 
+@app.route('/delta-time')
+def get_delta_time():
+    year = int(request.args['year'])
+    gp = request.args['gp']
+    session = request.args['session']
+    drivers = request.args['drivers'].split(',')
+    lap = int(request.args['lap'])
+
+    response = debrief.fastf1.delta_time_between_drivers(year, gp, session, drivers, lap)
+    return base64.b64encode(response.read()).decode()
+
 
 if __name__ == '__main__':
     app.run()
