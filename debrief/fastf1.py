@@ -32,6 +32,7 @@ def fastest_driver_q_lap(year: int, gp: str, identifier: str, drivers: list[str]
         constructor = constructor_name_by_driver(driver_name, year)
         plt.plot(x_plt, y_plt, color=ff1.plotting.team_color(constructor), label=driver)
 
+    plt.clf()
     plt.rcParams['figure.figsize'] = [18, 10]
     plt.ylabel(y_str)
     plt.xlabel(x_str)
@@ -42,5 +43,4 @@ def fastest_driver_q_lap(year: int, gp: str, identifier: str, drivers: list[str]
     io_bytes = io.BytesIO()
     plt.savefig(io_bytes, format='png', dpi=300)
     io_bytes.flush()
-    io_bytes.seek(0)
     return io_bytes

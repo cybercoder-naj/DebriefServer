@@ -10,7 +10,7 @@ def race_schedule(year: int):
     return json.loads(schedule.text)
 
 
-def constructor_name_by_driver(driver: str, year: int) -> str | None:
+def constructor_name_by_driver(driver: str, year: int) -> "str | None":
     if not 1950 <= year <= 2023:
         return None
 
