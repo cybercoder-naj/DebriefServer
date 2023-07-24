@@ -9,7 +9,7 @@ plotting.setup_mpl(mpl_timedelta_support=True, color_scheme='fastf1', misc_mpl_m
 ergast = Ergast()
 
 
-def fastest_driver_q_lap(year: int, gp: str, identifier: str, drivers: list[str], x_str: str, y_str: str) -> io.BytesIO:
+def fastest_lap_of_driver(year: int, gp: str, identifier: str, drivers: list[str], x_str: str, y_str: str) -> io.BytesIO:
     session = ff1.get_session(year, gp, identifier)
     session.load()
 
@@ -44,3 +44,6 @@ def fastest_driver_q_lap(year: int, gp: str, identifier: str, drivers: list[str]
     plt.savefig(io_bytes, format='png', dpi=300)
     io_bytes.flush()
     return io_bytes
+
+
+def delta_time_

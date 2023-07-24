@@ -40,7 +40,7 @@ def get_line_graph():
     session = request.args['session']
     drivers = request.args['drivers'].split(',')
 
-    response = debrief.fastf1.fastest_driver_q_lap(year, gp, session, drivers, x, y)
+    response = debrief.fastf1.fastest_lap_of_driver(year, gp, session, drivers, x, y)
     return base64.b64encode(response.read()).decode()
 
 
