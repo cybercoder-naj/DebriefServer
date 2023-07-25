@@ -99,7 +99,7 @@ def delta_time_between_drivers(year: int, gp: str, identifier: str, drivers: lis
                 break
         d2_time = driver2.iloc[d2_idx, 0]
 
-        delta.append((d2_time - d1_time).total_seconds())
+        delta.append((d1_time - d2_time).total_seconds())
 
         x_dist.append(curr_dist)
         curr_dist += mini_sector_dist
