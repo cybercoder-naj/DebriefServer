@@ -59,7 +59,7 @@ def fastest_lap_of_driver(year: int, gp: "str | int", identifier: str, drivers: 
 
 
 def delta_time_between_drivers(year: int, gp: str, identifier: str, drivers: list[str], lap: int) -> "io.BytesIO | None":
-    session = ff1.get_session(year, gp, 'Q')
+    session = ff1.get_session(year, gp, 'Q') # TODO change the 'Q' to identifier
     session.load()
 
     if len(drivers) != 2:
@@ -68,29 +68,56 @@ def delta_time_between_drivers(year: int, gp: str, identifier: str, drivers: lis
     # driver1 = session.laps.pick_lap(lap).pick_driver(drivers[0]).get_telemetry().add_distance()[['Time', 'Speed', 'Distance']]
     # driver2 = session.laps.pick_lap(lap).pick_driver(drivers[1]).get_telemetry().add_distance()[['Time', 'Speed', 'Distance']]
     
-    driver1 = session.laps.pick_driver(drivers[0]).pick_fastest().get_telemetry().add_distance()[['Time', 'Speed', 'Distance']]
-    driver2 = session.laps.pick_driver(drivers[1]).pick_fastest().get_telemetry().add_distance()[['Time', 'Speed', 'Distance']]
+    # TODO remove below
+    driver1 = session.laps.pick_driver(drivers[0]).pick_fastest().get_telemetry().add_distance()[['Time', 'Distance']]
+    driver2 = session.laps.pick_driver(drivers[1]).pick_fastest().get_telemetry().add_distance()[['Time', 'Distance']]
 
-    min_driver = driver1 if len(driver1) < len(driver2) else driver2
+    max_dist = max(driver1.iloc[-1, 1], driver2.iloc[-1, 1])
+    mini_sector_dist = max_dist / 100 # TODO make this a parm
+
+    curr_dist = 0
     delta = []
-    for i in range(min(len(driver1), len(driver2))):
-        # delta.append((driver1.loc[i + driver1.index[0], 'Distance'] - driver2.loc[i + driver2.index[0], 'Distance']) / (driver1.loc[i + driver1.index[0], 'Speed']))
-        delta.append(driver1.loc[i + driver1.index[0], 'Speed'] - driver2.loc[i + driver2.index[0], 'Speed'])
+    x_dist = []
+    d1_dist = 0
+    d1_idx = 0
+    d2_dist = 0
+    d2_idx = 0
+    while curr_dist < max_dist:
+        while d1_dist < curr_dist:
+            d1_dist = driver1.iloc[d1_idx, 1]
+            if d1_idx + 1 < len(driver1):
+                d1_idx += 1
+            else:
+                break
+        d1_time = driver1.iloc[d1_idx, 0]
 
+        while d2_dist < curr_dist:
+            d2_dist = driver2.iloc[d2_idx, 1]
+            if d2_idx + 1 < len(driver2):
+                d2_idx += 1
+            else:
+                break
+        d2_time = driver2.iloc[d2_idx, 0]
 
-    driver1_name = fullname_by_code(drivers[0], year)
-    driver2_name = fullname_by_code(drivers[1], year)
-    constructor1 = constructor_name_by_driver(driver1_name, year)
-    constructor2 = constructor_name_by_driver(driver2_name, year)
+        delta.append((d2_time - d1_time).total_seconds())
+
+        x_dist.append(curr_dist)
+        curr_dist += mini_sector_dist
+
+    x_dist = list(map(lambda d: (d / x_dist[-1]) * 100, x_dist))
 
     plt.clf()
-    plt.plot(min_driver['Time'], list(map(lambda n : 0 if n < 0 else n, delta)), color=ff1.plotting.team_color(constructor1), label=drivers[0])
-    plt.plot(min_driver['Time'], list(map(lambda n : 0 if n > 0 else n, delta)), color=ff1.plotting.team_color(constructor2), label=drivers[1])
-    plt.axhline(y=0, color='white', linestyle='-')
-    plt.rcParams['figure.figsize'] = [18, 10]
+
+    constructor1 = constructor_name_by_driver(fullname_by_code(drivers[0], year), year)
+    constructor2 = constructor_name_by_driver(fullname_by_code(drivers[1], year), year)
+    # plt.plot(x_dist, list(map(lambda d: 0 if d <= 0 else d, delta)), color=ff1.plotting.team_color(constructor1), label=drivers[0])
+    # plt.plot(x_dist, list(map(lambda d: 0 if d > 0 else d, delta)), color=ff1.plotting.team_color(constructor2), label=drivers[1])
+    # plt.axhline(y=0, color='white', linestyle='-')
+    plt.plot(x_dist, delta)
+
     plt.ylabel("Delta")
-    plt.xlabel("Time")
-    plt.title(f"insert a title")
+    plt.xlabel("Distance (%)")
+    plt.title(f"Insert a title")
     plt.grid(color='#3b3a3a')
     plt.legend(loc="upper right")
 
