@@ -26,13 +26,13 @@ data will be processed from the [FastF1](https://docs.fastf1.dev/index.html) pyt
   GET /fastest-laps/line-graph
 ```
 
-| Parameter | Type        | Description                                                                     |
-|:----------|:------------|:--------------------------------------------------------------------------------|
-| `x`       | `string`    | Field for x-axis: `Speed`, `RPM`, `nGear`, `Throttle`, `Brake`, `DRS`.          |
-| `y`       | `string`    | Field for y-axis: `Speed`, `RPM`, `nGear`, `Throttle`, `Brake`, `DRS`.          |
-| `gp`      | `string`    | Name of the circuit.                                                            |
-| `year`    | `int`       | Year of the F1 Season.                                                          |
-| `drivers` | `list[str]` | Comma-separated(,) list of drivers to compare. Use driver code in block letters |
+| Parameter | Type        | Description                                                                                 |
+|:----------|:------------|:--------------------------------------------------------------------------------------------|
+| `x`       | `string`    | Field for x-axis: `Speed`, `RPM`, `nGear`, `Throttle`, `Brake`, `DRS`, `Distance`, `Time`.  |
+| `y`       | `string`    | Field for y-axis: `Speed`, `RPM`, `nGear`, `Throttle`, `Brake`, `DRS`, `Distance`, `Time`.  |
+| `gp`      | `string`    | Name of the circuit.                                                                        |
+| `year`    | `int`       | Year of the F1 Season.                                                                      |
+| `drivers` | `list[str]` | Comma-separated(,) list of drivers to compare. Use driver code in block letters             |
 
 ## Contributing
 
