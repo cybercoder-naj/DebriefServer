@@ -72,6 +72,18 @@ def delta_time_between_drivers(year: int, gp: str, identifier: str, drivers: lis
     driver1 = session.laps.pick_driver(drivers[0]).pick_fastest().get_telemetry().add_distance()[['Time', 'Distance']]
     driver2 = session.laps.pick_driver(drivers[1]).pick_fastest().get_telemetry().add_distance()[['Time', 'Distance']]
 
+    driver1[['Time']] = driver1[['Time']].apply(lambda time: time.dt.total_seconds())
+    driver2[['Time']] = driver2[['Time']].apply(lambda time: time.dt.total_seconds())
+
+    for i in range(len(driver1)):
+        if not driver1.iloc[i, 1] in driver2['Distance'].values:
+            driver2.loc[len(driver2.index)] = [None, driver1.iloc[i, 1]]
+
+    for i in range(len(driver2)):
+        if not driver2.iloc[i, 1] in driver1['Distance'].values:
+            driver1.loc[len(driver1.index)] = [None, driver2.iloc[i, 1]]
+    
+    print(f"ASSERTION: {len(driver1)} == {len(driver2)}", file=sys.stdout)
     max_dist = max(driver1.iloc[-1, 1], driver2.iloc[-1, 1])
     mini_sector_dist = max_dist / 100 # TODO make this a parm
 
